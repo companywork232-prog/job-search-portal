@@ -1,0 +1,114 @@
+// Version: 1.0.0
+type ApplicationStatus__511886962 =
+  {#pending; #rejected; #reviewed; #shortlisted};
+type Application__578997397 =
+  {
+    appliedAt : Timestamp__301639476;
+    companyName : Text;
+    id : Nat;
+    jobId : Nat;
+    jobTitle : Text;
+    seekerPrincipal : Principal;
+    status : ApplicationStatus__511886962
+  };
+type Data__791452850<K, V> =
+  {var count : Nat__490723111; kvs : [var ?(K, V)]};
+type ExperienceLevel__1028171813 = {#entry; #mid; #senior};
+type Int__270357528 = Int__616954475;
+type Int__616954475 = Int;
+type Internal__8484328<K, V> =
+  {children : [var ?Node__46230540<K, V>]; data : Data__791452850<K, V>};
+type JobCategory__616899339 =
+  {icon : Text; id : Nat; jobCount : Nat; name : Text; slug : Text};
+type JobSeeker__733430509 =
+  {
+    bio : ?Text;
+    createdAt : Timestamp__301639476;
+    desiredSalaryMax : ?Nat;
+    desiredSalaryMin : ?Nat;
+    email : Text;
+    experienceLevel : ?ExperienceLevel__1028171813;
+    headline : ?Text;
+    location : ?Text;
+    name : Text;
+    phone : ?Text;
+    preferredIndustries : [Text];
+    principal : Principal;
+    resumeName : ?Text;
+    resumeUrl : ?Text;
+    updatedAt : Timestamp__301639476;
+    workExperience : [WorkExperience__205691010]
+  };
+type JobStatus__357834694 = {#active; #closed};
+type JobType__901735504 = {#contract; #fullTime; #partTime; #remote};
+type Job__848768964 =
+  {
+    category : Text;
+    companyId : Nat;
+    companyLogo : ?Text;
+    companyName : Text;
+    description : Text;
+    experienceLevel : ExperienceLevel__1028171813;
+    id : Nat;
+    industry : Text;
+    isFeatured : Bool;
+    isSample : Bool;
+    jobType : JobType__901735504;
+    location : Text;
+    postedAt : Timestamp__301639476;
+    qualifications : Text;
+    responsibilities : Text;
+    salaryMax : ?Nat;
+    salaryMin : ?Nat;
+    status : JobStatus__357834694;
+    tags : [Text];
+    title : Text
+  };
+type Leaf__809889148<K, V> = {data : Data__791452850<K, V>};
+type Nat__490723111 = Nat__920180692;
+type Nat__920180692 = Nat;
+type Node__46230540<K, V> =
+  {#internal : Internal__8484328<K, V>; #leaf : Leaf__809889148<K, V>};
+type SavedJob__916477841 =
+  {
+    companyName : Text;
+    jobId : Nat;
+    jobTitle : Text;
+    location : Text;
+    savedAt : Timestamp__301639476;
+    seekerPrincipal : Principal
+  };
+type Time__796480547 = Int__270357528;
+type Time__900049286 = Time__796480547;
+type Timestamp__301639476 = Time__900049286;
+type WorkExperience__205691010 =
+  {company : Text; duration : Text; title : Text};
+actor {
+  stable applications :
+    {
+      var root : Node__46230540<Text, Application__578997397>;
+      var size : Nat__490723111
+    };
+  stable categories :
+    {
+      var root : Node__46230540<Nat, JobCategory__616899339>;
+      var size : Nat__490723111
+    };
+  stable jobs :
+    {
+      var root : Node__46230540<Nat, Job__848768964>;
+      var size : Nat__490723111
+    };
+  stable var nextAppId : Nat;
+  stable nextJobId : Nat;
+  stable savedJobs :
+    {
+      var root : Node__46230540<Text, SavedJob__916477841>;
+      var size : Nat__490723111
+    };
+  stable seekers :
+    {
+      var root : Node__46230540<Principal, JobSeeker__733430509>;
+      var size : Nat__490723111
+    }
+};

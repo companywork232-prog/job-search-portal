@@ -1,0 +1,27 @@
+{
+  "overview": "A full-featured job search portal inspired by Naukri.com and Indeed. Job seekers can browse and search thousands of jobs, filter by location, salary, and industry, save favorites, apply with one click, and track applications from their dashboard. Built with a modern, professional design that works beautifully on both desktop and mobile.",
+  "features": [
+    "Home page with job search bar by keyword, location, and category",
+    "Job listings with advanced filters: job type, salary range, experience level, and industry",
+    "Individual job detail pages with full description, company info, and apply button",
+    "Job seeker registration and login with profile management",
+    "Resume upload and storage",
+    "Job seeker dashboard with applied jobs, saved jobs, and profile editing",
+    "Category-based job browsing: IT, Finance, Marketing, Healthcare, Education, and more",
+    "Featured and recent jobs sections on home page",
+    "Responsive mobile-friendly design",
+    "Save and share job listings"
+  ],
+  "category": "productivity",
+  "tags": [
+    "jobs",
+    "career",
+    "job-search",
+    "recruitment",
+    "hiring",
+    "resume",
+    "employment",
+    "portal"
+  ],
+  "last_updated": "2026-05-04T05:25:35.232Z"
+}

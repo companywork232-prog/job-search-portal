@@ -1,0 +1,171 @@
+type WorkExperience = 
+ record {
+   company: text;
+   duration: text;
+   title: text;
+ };
+type UpdateJobSeekerInput = 
+ record {
+   bio: opt text;
+   desiredSalaryMax: opt nat;
+   desiredSalaryMin: opt nat;
+   email: text;
+   experienceLevel: opt ExperienceLevel;
+   headline: opt text;
+   location: opt text;
+   name: text;
+   phone: opt text;
+   preferredIndustries: vec text;
+   resumeName: opt text;
+   resumeUrl: opt text;
+   workExperience: vec WorkExperience;
+ };
+type Timestamp = int;
+type SortBy = 
+ variant {
+   newest;
+   salaryHigh;
+   salaryLow;
+ };
+type SearchFilter = 
+ record {
+   experienceLevel: opt ExperienceLevel;
+   industries: vec text;
+   jobType: opt JobType;
+   keyword: opt text;
+   location: opt text;
+   salaryMax: opt nat;
+   salaryMin: opt nat;
+   sortBy: opt SortBy;
+ };
+type SavedJob = 
+ record {
+   companyName: text;
+   jobId: nat;
+   jobTitle: text;
+   location: text;
+   savedAt: Timestamp;
+   seekerPrincipal: principal;
+ };
+type Pagination = 
+ record {
+   limit: nat;
+   offset: nat;
+   total: nat;
+ };
+type PageResult = 
+ record {
+   items: vec Job;
+   pagination: Pagination;
+ };
+type JobType = 
+ variant {
+   contract;
+   fullTime;
+   partTime;
+   remote;
+ };
+type JobStatus = 
+ variant {
+   active;
+   closed;
+ };
+type JobSeeker = 
+ record {
+   bio: opt text;
+   createdAt: Timestamp;
+   desiredSalaryMax: opt nat;
+   desiredSalaryMin: opt nat;
+   email: text;
+   experienceLevel: opt ExperienceLevel;
+   headline: opt text;
+   location: opt text;
+   name: text;
+   phone: opt text;
+   preferredIndustries: vec text;
+   "principal": principal;
+   resumeName: opt text;
+   resumeUrl: opt text;
+   updatedAt: Timestamp;
+   workExperience: vec WorkExperience;
+ };
+type JobCategory = 
+ record {
+   icon: text;
+   id: nat;
+   jobCount: nat;
+   name: text;
+   slug: text;
+ };
+type Job = 
+ record {
+   category: text;
+   companyId: nat;
+   companyLogo: opt text;
+   companyName: text;
+   description: text;
+   experienceLevel: ExperienceLevel;
+   id: nat;
+   industry: text;
+   isFeatured: bool;
+   isSample: bool;
+   jobType: JobType;
+   location: text;
+   postedAt: Timestamp;
+   qualifications: text;
+   responsibilities: text;
+   salaryMax: opt nat;
+   salaryMin: opt nat;
+   status: JobStatus;
+   tags: vec text;
+   title: text;
+ };
+type ExperienceLevel = 
+ variant {
+   entry;
+   mid;
+   senior;
+ };
+type ApplicationStatus = 
+ variant {
+   pending;
+   rejected;
+   reviewed;
+   shortlisted;
+ };
+type Application = 
+ record {
+   appliedAt: Timestamp;
+   companyName: text;
+   id: nat;
+   jobId: nat;
+   jobTitle: text;
+   seekerPrincipal: principal;
+   status: ApplicationStatus;
+ };
+service : {
+  applyToJob: (jobId: nat) -> (variant {
+                                 err: text;
+                                 ok: Application;
+                               });
+  createOrUpdateProfile: (input: UpdateJobSeekerInput) -> (JobSeeker);
+  getApplicationStatus: (jobId: nat) -> (opt ApplicationStatus) query;
+  getCategories: () -> (vec JobCategory) query;
+  getFeaturedJobs: () -> (vec Job) query;
+  getJob: (id: nat) -> (opt Job) query;
+  getJobsByCategory: (categorySlug: text) -> (vec Job) query;
+  getMyApplications: () -> (vec Application) query;
+  getMyProfile: () -> (opt JobSeeker) query;
+  getMySavedJobs: () -> (vec SavedJob) query;
+  getRecentJobs: (limit: nat) -> (vec Job) query;
+  getSimilarJobs: (jobId: nat, limit: nat) -> (vec Job) query;
+  hasApplied: (jobId: nat) -> (bool) query;
+  isJobSaved: (jobId: nat) -> (bool) query;
+  saveJob: (jobId: nat) -> (variant {
+                              err: text;
+                              ok: SavedJob;
+                            });
+  searchJobs: (filter: SearchFilter, pagination: Pagination) ->
+   (PageResult) query;
+  unsaveJob: (jobId: nat) -> ();
+}
